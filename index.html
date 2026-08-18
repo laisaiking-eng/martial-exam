@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>香港健康文化協會 - 考核表格</title>
-  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuimmemAheaDheaxieS9k+iCsiAtIOiDveagoOezu3XpIiwKICAic2hvcnRfbmFtZSI6ICLllqRleGFtIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM0QTE2OEIiLAogICJ0aGVtZV9jb2xvciI6ICIjNEExNjhCIgp9">
-  
   <style>
     :root { --primary-purple: #4A168B; --light-purple: #7B2CBF; --bg-purple: #F3E8FF; }
     body { font-family: sans-serif; background-color: var(--bg-purple); padding: 15px; margin: 0; }
@@ -16,7 +14,6 @@
     input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #CCC; border-radius: 8px; box-sizing: border-box; }
     label { font-size: 13px; font-weight: bold; display: block; margin-top: 5px; }
     button { background-color: var(--light-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; margin-top: 10px; font-weight: bold; }
-    .btn-export { background-color: #007BFF; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; }
     th, td { border: 1px solid #EEE; padding: 10px; text-align: center; font-size: 14px; }
     th { background-color: var(--primary-purple); color: white; }
@@ -25,13 +22,12 @@
 </head>
 <body>
 
-<!-- 登入畫面 -->
 <div id="loginOverlay">
   <div class="card" style="width: 80%; max-width: 300px;">
-    <h2>請選擇登入身份</h2>
-    <input type="password" id="pwInput" placeholder="請輸入密碼">
-    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入</button>
-    <button onclick="login('student')">學員登入 (唯讀)</button>
+    <h2>身份登入</h2>
+    <input type="password" id="pwInput" placeholder="請輸入密碼 (小寫)">
+    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入 (exam)</button>
+    <button onclick="login('student')">學員登入 (view)</button>
   </div>
 </div>
 
@@ -39,35 +35,45 @@
   <div class="header"><h1>香港健康文化協會<br>考核表格</h1></div>
   <div class="card">
     <h2>進行考核</h2>
-    <select id="studentSelect" onchange="loadStudentData()"><option value="">-- 選擇學員 --</option></select>
+    <select id="studentSelect" onchange="loadStudentData()"><option value="">-- 請選擇學員 --</option></select>
     <div class="grid-2">
       <div><label>學號：</label><input type="text" id="examId" readonly></div>
       <div><label>現時級別：</label><input type="text" id="examRank" readonly></div>
     </div>
-    <h3 style="font-size:16px; color:#4A168B;">一、功法考核</h3>
+
+    <h3 style="color:#4A168B;">一、功法考核</h3>
     <div class="grid-2">
-      <div><label>前俯腰 (吋)：</label><input type="text" id="input1"></div>
-      <div><label>指/拳/掌：</label><input type="text" id="input2"></div>
-      <div><label>定式 (分/秒)：</label><input type="text" id="input3"></div>
-      <div><label>膝/腰/臂膊：</label><input type="text" id="input4"></div>
-      <div><label>外擺腿：</label><input type="text" id="input5"></div>
-      <div><label>腿法：</label><input type="text" id="input6"></div>
+      <div><label>前俯腰(吋)：</label><input type="text" id="i1"></div>
+      <div><label>指/拳/掌：</label><input type="text" id="i2"></div>
+      <div><label>定式(分/秒)：</label><input type="text" id="i3"></div>
+      <div><label>膝/腰/臂膊：</label><input type="text" id="i4"></div>
+      <div><label>外擺腿：</label><input type="text" id="i5"></div>
+      <div><label>腿法(彈/蹬/側)：</label><input type="text" id="i6"></div>
     </div>
-    <label>考核是否合格：</label>
+
+    <h3 style="color:#4A168B;">二、拳腳考核</h3>
+    <div class="grid-2">
+      <div><label>雙拳三步：</label><input type="text" id="i7"></div>
+      <div><label>七式(攻/防)：</label><input type="text" id="i8"></div>
+      <div><label>原地十式：</label><input type="text" id="i9"></div>
+      <div><label>活步十式：</label><input type="text" id="i10"></div>
+    </div>
+
+    <label>考核結果：</label>
     <select id="examPassed">
       <option value="否">否 (保持原級別)</option>
       <option value="是_升級">是 (晉升下一級)</option>
-      <option value="是_保持">是 (已通過，但保持原級別)</option>
+      <option value="是_保持">是 (合格，但保持原級別)</option>
     </select>
     <button id="saveBtn" onclick="saveExamResult()" style="background-color: var(--primary-purple);">儲存考核紀錄</button>
   </div>
 
   <div class="card" id="adminSection">
-    <h2>學員管理</h2>
+    <h2>管理功能</h2>
     <input type="text" id="newStudentId" placeholder="學號">
     <input type="text" id="newStudentName" placeholder="姓名">
     <button onclick="addStudent()">新增學員</button>
-    <button class="btn-export" onclick="exportReport()">下載考核報告 (CSV)</button>
+    <button style="background-color:#007BFF;" onclick="exportReport()">下載 CSV 報告</button>
   </div>
 
   <div class="card">
@@ -103,15 +109,14 @@
     const pw = document.getElementById('pwInput').value;
     if (role === 'tutor' && pw === 'exam') { currentUserRole = 'tutor'; }
     else if (role === 'student' && pw === 'view') { currentUserRole = 'student'; }
-    else { alert('密碼錯誤！'); return; }
+    else { alert('密碼錯誤！請輸入小寫字母'); return; }
     
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
     if (currentUserRole === 'student') {
       document.getElementById('adminSection').style.display = 'none';
       document.getElementById('saveBtn').style.display = 'none';
-      const adminOnly = document.querySelectorAll('.adminOnly');
-      adminOnly.forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.adminOnly').forEach(el => el.style.display = 'none');
     }
     renderStudents();
   }
@@ -120,7 +125,7 @@
     const tbody = document.getElementById('studentTableBody');
     const select = document.getElementById('studentSelect');
     tbody.innerHTML = '';
-    select.innerHTML = '<option value="">-- 選擇學員 --</option>';
+    select.innerHTML = '<option value="">-- 請選擇學員 --</option>';
     students.forEach((s, index) => {
       let row = `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.rank}</td>`;
       if (currentUserRole === 'tutor') row += `<td><button style="background:red; padding:5px; width:40px;" onclick="deleteStudent(${index})">X</button></td>`;
@@ -162,6 +167,7 @@
     link.download = "考核報告.csv";
     link.click();
   }
+  renderStudents();
 </script>
 </body>
 </html>
