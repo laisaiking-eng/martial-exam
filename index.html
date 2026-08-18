@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>香港健康文化協會 - 考核系統</title>
+  <title>香港健康文化協會 - 考核表格</title>
+
+  <!-- PWA & 桌面捷徑圖示設定 -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234A168B'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-weight='bold'>考</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234A168B'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-weight='bold'>考</text></svg>">
   <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuimmemAheaDheaxieS9k+iCsiAtIOiDveagoOezu3XpIiwKICAic2hvcnRfbmFtZSI6ICLllqRleGFtIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM0QTE2OEIiLAogICJ0aGVtZV9jb2xvciI6ICIjNEExNjhCIgp9">
+
   <style>
     :root {
       --primary-purple: #4A168B;
@@ -13,107 +18,35 @@
       --bg-purple: #F3E8FF;
       --card-bg: #FFFFFF;
     }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg-purple);
-      color: #333;
-      margin: 0;
-      padding: 15px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .header {
-      background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      margin-bottom: 20px;
-    }
-    .header h1 { margin: 0; font-size: 22px; }
-    .header p { margin: 5px 0 0 0; font-size: 14px; opacity: 0.9; }
-    
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-    }
-    h2 { font-size: 18px; color: var(--primary-purple); border-bottom: 2px solid var(--accent-purple); padding-bottom: 6px; margin-top: 0; }
-    
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: var(--bg-purple); color: #333; margin: 0; padding: 15px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, var(--primary-purple), var(--light-purple)); color: white; padding: 25px 20px; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-bottom: 20px; }
+    .header h1 { margin: 0; font-size: 24px; line-height: 1.4; font-weight: bold; }
+    .header p { margin: 12px 0 0 0; font-size: 15px; opacity: 0.9; }
+    .card { background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    h2 { font-size: 18px; color: var(--primary-purple); margin-top: 0; margin-bottom: 15px; }
+    h3 { font-size: 15px; color: var(--light-purple); margin-top: 15px; margin-bottom: 8px; }
     .form-group { margin-bottom: 12px; }
     label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 14px; }
-    input[type="text"], input[type="number"], select {
-      width: 100%; padding: 8px 10px; border: 1px solid #CCC; border-radius: 6px; box-sizing: border-box; font-size: 14px;
-    }
-    
+    input[type="text"], input[type="number"], select { width: 100%; padding: 10px; border: 1px solid #CCC; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-    
-    button {
-      background-color: var(--light-purple);
-      color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; width: 100%; transition: 0.2s;
-    }
+    button { background-color: var(--light-purple); color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%; transition: 0.2s; }
     button:hover { background-color: var(--primary-purple); }
-    button.danger { background-color: #D90429; }
-    
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #DDD; padding: 8px; text-align: center; font-size: 14px; }
+    button.danger { background-color: #D90429; width: auto; padding: 6px 12px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #EEE; padding: 10px 8px; text-align: center; font-size: 14px; }
     th { background-color: var(--primary-purple); color: white; }
-    
-    .modal {
-      display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000;
-    }
-    .modal-content { background: white; padding: 25px; border-radius: 12px; width: 300px; text-align: center; }
-    
-    .badge { background: var(--accent-purple); color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+    .badge { background: var(--accent-purple); color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
   </style>
 </head>
 <body>
 
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h3 style="color: var(--primary-purple);">香港健康文化協會</h3>
-    <p>請輸入考卷系統密碼：</p>
-    <input type="password" id="passwordInput" placeholder="密碼 (exam)" style="margin-bottom: 15px;">
-    <button onclick="checkPassword()">登入系統</button>
-  </div>
-</div>
-
-<div class="container" id="mainApp" style="display:none;">
+<div class="container">
   <div class="header">
-    <h1>香港健康文化協會 - 考核表格</h1>
+    <h1>香港健康文化協會<br>考核表格</h1>
     <p>日期：<span id="currentDate"></span></p>
   </div>
 
-  <!-- 學員管理 -->
-  <div class="card">
-    <h2>學員管理</h2>
-    <div class="grid-3">
-      <input type="text" id="newStudentId" placeholder="學號 (例如: 5)">
-      <input type="text" id="newStudentName" placeholder="姓名">
-      <select id="newStudentRank">
-        <option value="10級">10級</option>
-        <option value="九級">九級</option>
-        <option value="八級">八級</option>
-        <option value="七級">七級</option>
-        <option value="六級">六級</option>
-        <option value="伍級">伍級</option>
-        <option value="四級">四級</option>
-        <option value="三級">三級</option>
-        <option value="二級">二級</option>
-        <option value="一級">一級</option>
-        <option value="黑帶">黑帶</option>
-      </select>
-    </div>
-    <button onclick="addStudent()" style="margin-top: 10px;">新增學員</button>
-  </div>
-
-  <!-- 選擇學員進行考核 -->
   <div class="card">
     <h2>進行考核</h2>
     <div class="form-group">
@@ -125,11 +58,10 @@
 
     <form id="examForm">
       <div class="grid-2">
-        <div class="form-group"><label>學號：</label><input type="text" id="examId" readonly></div>
-        <div class="form-group"><label>現時級別：</label><input type="text" id="examRank" readonly></div>
+        <div class="form-group"><label>學號：</label><input type="text" id="examId" readonly placeholder="學號"></div>
+        <div class="form-group"><label>現時級別：</label><input type="text" id="examRank" readonly placeholder="級別"></div>
       </div>
 
-      <!-- 功法內容 -->
       <h3>一、功法考核</h3>
       <div class="grid-2">
         <div class="form-group"><label>前俯腰 (吋)：</label><input type="text"></div>
@@ -137,19 +69,17 @@
         <div class="form-group"><label>定式 (分/秒)：</label><input type="text"></div>
         <div class="form-group"><label>膝 / 腰 / 臂膊：</label><input type="text"></div>
         <div class="form-group"><label>外擺腿：</label><input type="text"></div>
-        <div class="form-group"><label>腿法 (彈腿/蹬腿/側踢)：</label><input type="text"></div>
+        <div class="form-group"><label>腿法 (彈/蹬/側)：</label><input type="text"></div>
       </div>
 
-      <!-- 拳腳內容 -->
       <h3>二、拳腳考核</h3>
       <div class="grid-2">
         <div class="form-group"><label>雙拳三步：</label><input type="text"></div>
-        <div class="form-group"><label>七式 (活步/A前進攻/B後退防)：</label><input type="text"></div>
+        <div class="form-group"><label>七式 (活步/A攻/B防)：</label><input type="text"></div>
         <div class="form-group"><label>原地十式：</label><input type="text"></div>
         <div class="form-group"><label>活步十式：</label><input type="text"></div>
       </div>
 
-      <!-- 其他評語與合格判定 -->
       <h3>三、考核結果與評語</h3>
       <div class="form-group">
         <label>本級評語/其他：</label>
@@ -162,22 +92,23 @@
           <option value="是">是 (自動升級)</option>
         </select>
       </div>
-
       <button type="button" onclick="saveExamResult()" style="margin-top: 10px; background-color: var(--primary-purple);">儲存考核紀錄並升級</button>
     </form>
   </div>
 
-  <!-- 學員名冊 -->
   <div class="card">
-    <h2>學員名冊</h2>
+    <h2>學員管理與名冊 (<span id="totalStudentsCount">0</span>人)</h2>
+    <div style="background:#FAF5FF; padding:12px; border-radius:8px; margin-bottom:15px;">
+      <h3 style="margin-top:0;">新增學員 (預設由 10級 開始)</h3>
+      <div class="grid-2">
+        <input type="text" id="newStudentId" placeholder="學號">
+        <input type="text" id="newStudentName" placeholder="姓名">
+      </div>
+      <button onclick="addStudent()" style="margin-top: 10px;">新增學員</button>
+    </div>
     <table>
       <thead>
-        <tr>
-          <th>學號</th>
-          <th>姓名</th>
-          <th>級別</th>
-          <th>操作</th>
-        </tr>
+        <tr><th>學號</th><th>姓名</th><th>級別</th><th>操作</th></tr>
       </thead>
       <tbody id="studentTableBody"></tbody>
     </table>
@@ -186,83 +117,81 @@
 
 <script>
   const RANKS = ["10級", "九級", "八級", "七級", "六級", "伍級", "四級", "三級", "二級", "一級", "黑帶"];
-
-  let students = [
-    { id: "6", name: "盧明俐", rank: "黑帶" },
-    { id: "15", name: "林雪蓮", rank: "黑帶" },
-    { id: "5", name: "張勵常", rank: "10級" },
-    { id: "23", name: "陸景城", rank: "九級" },
-    { id: "32", name: "黄愛晴", rank: "六級" },
-    { id: "37", name: "鄺炳權", rank: "伍級" },
-    { id: "45", name: "張家莉", rank: "四級" },
-    { id: "39", name: "蘇少敏", rank: "二級" },
-    { id: "30", name: "朱秉江", rank: "一級" }
+  
+  // 初始化資料：從儲存空間讀取，若無則使用預設名單
+  let students = JSON.parse(localStorage.getItem('hk_health_students')) || [
+    { id: "6", name: "盧明俐", rank: "黑帶" }, { id: "15", name: "林雪蓮", rank: "黑帶" },
+    { id: "20", name: "譚美霞", rank: "黑帶" }, { id: "17", name: "李翹伶", rank: "黑帶" },
+    { id: "9", name: "陸婥然", rank: "黑帶" }, { id: "16", name: "何肇東", rank: "黑帶" },
+    { id: "8", name: "陳麗君", rank: "黑帶" }, { id: "5", name: "張勵常", rank: "10級" },
+    { id: "23", name: "陸景城", rank: "九級" }, { id: "24", name: "黎世瓊", rank: "九級" },
+    { id: "26", name: "楊燕娜", rank: "九級" }, { id: "25", name: "區美珍", rank: "九級" },
+    { id: "32", name: "黄愛晴", rank: "六級" }, { id: "44", name: "方兆賢", rank: "六級" },
+    { id: "29", name: "梁美玲", rank: "六級" }, { id: "31", name: "蔡麗珠", rank: "六級" },
+    { id: "38", name: "關凱惠", rank: "六級" }, { id: "37", name: "鄺炳權", rank: "伍級" },
+    { id: "-", name: "李文英", rank: "伍級" }, { id: "36", name: "鍾炳權", rank: "伍級" },
+    { id: "39", name: "蘇少賢", rank: "伍級" }, { id: "45", name: "張家莉", rank: "四級" },
+    { id: "46", name: "周响輝", rank: "四級" }, { id: "42", name: "鍾麗君", rank: "四級" },
+    { id: "40", name: "歐志雄", rank: "四級" }, { id: "39", name: "蘇少敏", rank: "二級" },
+    { id: "-", name: "朱秉江", rank: "一級" }, { id: "-", name: "廖金虹", rank: "一級" }
   ];
 
-  function checkPassword() {
-    const pwd = document.getElementById('passwordInput').value;
-    if (pwd === 'exam') {
-      document.getElementById('loginModal').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      initApp();
-    } else {
-      alert('密碼錯誤！');
-    }
-  }
-
-  function initApp() {
-    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('zh-HK');
+  // 儲存資料的通用函式
+  function saveToLocalStorage() {
+    localStorage.setItem('hk_health_students', JSON.stringify(students));
     renderStudents();
   }
+
+  window.onload = function() {
+    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('zh-HK');
+    renderStudents();
+  };
 
   function renderStudents() {
     const tbody = document.getElementById('studentTableBody');
     const select = document.getElementById('studentSelect');
     tbody.innerHTML = '';
     select.innerHTML = '<option value="">-- 請選擇學員 --</option>';
+    document.getElementById('totalStudentsCount').innerText = students.length;
 
     students.forEach((s, index) => {
-      // 填入表格
       tbody.innerHTML += `
         <tr>
           <td>${s.id}</td>
           <td>${s.name}</td>
           <td><span class="badge">${s.rank}</span></td>
-          <td><button class="danger" style="padding: 4px 8px; font-size:12px;" onclick="deleteStudent(${index})">刪除</button></td>
+          <td><button class="danger" onclick="deleteStudent(${index})">刪除</button></td>
         </tr>
       `;
-      // 填入選單
       select.innerHTML += `<option value="${index}">${s.id} - ${s.name} (${s.rank})</option>`;
     });
   }
 
   function addStudent() {
-    const id = document.getElementById('newStudentId').value.trim();
+    const id = document.getElementById('newStudentId').value.trim() || "-";
     const name = document.getElementById('newStudentName').value.trim();
-    const rank = document.getElementById('newStudentRank').value;
-
-    if (!id || !name) {
-      alert('請填寫學號與姓名');
-      return;
-    }
-
-    students.push({ id, name, rank });
+    if (!name) { alert('請填寫姓名'); return; }
+    students.push({ id, name, rank: "10級" });
     document.getElementById('newStudentId').value = '';
     document.getElementById('newStudentName').value = '';
-    renderStudents();
+    saveToLocalStorage();
     alert('學員新增成功！');
   }
 
   function deleteStudent(index) {
     if (confirm('確定要刪除該學員嗎？')) {
       students.splice(index, 1);
-      renderStudents();
+      saveToLocalStorage();
     }
   }
 
   function loadStudentData() {
     const idx = document.getElementById('studentSelect').value;
-    if (idx === "") return;
+    if (idx === "") {
+      document.getElementById('examId').value = '';
+      document.getElementById('examRank').value = '';
+      return;
+    }
     const s = students[idx];
     document.getElementById('examId').value = s.id;
     document.getElementById('examRank').value = s.rank;
@@ -270,10 +199,7 @@
 
   function saveExamResult() {
     const idx = document.getElementById('studentSelect').value;
-    if (idx === "") {
-      alert('請先選擇學員！');
-      return;
-    }
+    if (idx === "") { alert('請先選擇學員！'); return; }
 
     const isPassed = document.getElementById('examPassed').value === '是';
     if (isPassed) {
@@ -283,14 +209,13 @@
         students[idx].rank = RANKS[rankIndex + 1];
         alert(`考驗合格！學員已自動升級至：${students[idx].rank}`);
       } else {
-        alert('考驗合格！該學員已是黑帶，維持黑帶級別。');
+        alert('考驗合格！該學員已是黑帶。');
       }
     } else {
-      alert('考驗結果已儲存（未升級）。');
+      alert('考驗結果已儲存。');
     }
-
     document.getElementById('examForm').reset();
-    renderStudents();
+    saveToLocalStorage();
   }
 </script>
 </body>
