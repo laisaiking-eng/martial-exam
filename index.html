@@ -7,16 +7,18 @@
   <style>
     :root { --primary-purple: #4A168B; --light-purple: #7B2CBF; --bg-purple: #F3E8FF; }
     body { font-family: sans-serif; background-color: var(--bg-purple); padding: 15px; margin: 0; }
-    .container { max-width: 800px; margin: 0 auto; }
+    .container { max-width: 850px; margin: 0 auto; }
     .header { background: var(--primary-purple); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 20px; }
     .card { background: white; padding: 20px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #CCC; border-radius: 8px; box-sizing: border-box; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    input, select { width: 100%; padding: 8px; margin: 4px 0; border: 1px solid #CCC; border-radius: 6px; box-sizing: border-box; }
+    label { font-size: 13px; font-weight: bold; color: #333; }
     button { background-color: var(--light-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; margin-top: 10px; font-weight: bold; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border: 1px solid #EEE; padding: 10px; text-align: center; font-size: 14px; }
+    th, td { border: 1px solid #EEE; padding: 8px; text-align: center; font-size: 13px; }
     th { background-color: var(--primary-purple); color: white; }
     #loginOverlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-purple); z-index:1000; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+    .section-title { color: var(--primary-purple); border-bottom: 2px solid var(--bg-purple); padding-bottom: 5px; margin-top: 15px; }
   </style>
 </head>
 <body>
@@ -32,35 +34,54 @@
 
 <div class="container" id="mainContent" style="display:none;">
   <div class="header"><h1>香港健康文化協會<br>考核表格</h1></div>
+  
   <div class="card">
     <h2>進行考核</h2>
     <select id="studentSelect" onchange="loadStudentData()"><option value="">-- 請選擇學員 --</option></select>
-    <div class="grid-2">
+    
+    <div class="grid-3" style="margin-top:10px;">
       <div><label>學號：</label><input type="text" id="examId" readonly></div>
       <div><label>現時級別：</label><input type="text" id="examRank" readonly></div>
     </div>
-    <h3 style="color:#4A168B;">一、功法考核</h3>
-    <div class="grid-2">
-      <div><label>前俯腰(吋)：</label><input type="text" id="i1"></div>
-      <div><label>指/拳/掌：</label><input type="text" id="i2"></div>
-      <div><label>定式(分/秒)：</label><input type="text" id="i3"></div>
-      <div><label>膝/腰/臂膊：</label><input type="text" id="i4"></div>
-      <div><label>外擺腿：</label><input type="text" id="i5"></div>
-      <div><label>腿法：</label><input type="text" id="i6"></div>
+
+    <!-- 一、功法考核 -->
+    <h3 class="section-title">一、功法考核</h3>
+    <div class="grid-3">
+      <div><label>前俯腰 (吋)：</label><input type="text" class="score-input"></div>
+      <div><label>指：</label><input type="text" class="score-input"></div>
+      <div><label>拳：</label><input type="text" class="score-input"></div>
+      <div><label>掌：</label><input type="text" class="score-input"></div>
+      <div><label>定式 (分/秒)：</label><input type="text" class="score-input"></div>
+      <div><label>膝：</label><input type="text" class="score-input"></div>
+      <div><label>腰：</label><input type="text" class="score-input"></div>
+      <div><label>外擺腿：</label><input type="text" class="score-input"></div>
+      <div><label>臂膊：</label><input type="text" class="score-input"></div>
+      <div><label>腿法 - 彈腿：</label><input type="text" class="score-input"></div>
+      <div><label>腿法 - 蹬腿：</label><input type="text" class="score-input"></div>
+      <div><label>腿法 - 側踢：</label><input type="text" class="score-input"></div>
     </div>
-    <h3 style="color:#4A168B;">二、拳腳考核</h3>
-    <div class="grid-2">
-      <div><label>雙拳三步：</label><input type="text" id="i7"></div>
-      <div><label>七式(攻/防)：</label><input type="text" id="i8"></div>
-      <div><label>原地十式：</label><input type="text" id="i9"></div>
-      <div><label>活步十式：</label><input type="text" id="i10"></div>
+
+    <!-- 二、拳腳考核 -->
+    <h3 class="section-title">二、拳腳考核</h3>
+    <div class="grid-3">
+      <div><label>雙拳三步：</label><input type="text" class="score-input"></div>
+      <div><label>七式 - 活步：</label><input type="text" class="score-input"></div>
+      <div><label>七式 - A前進攻：</label><input type="text" class="score-input"></div>
+      <div><label>七式 - B後退防：</label><input type="text" class="score-input"></div>
+      <div><label>原地十式：</label><input type="text" class="score-input"></div>
+      <div><label>活步十式：</label><input type="text" class="score-input"></div>
+      <div><label>本級：</label><input type="text" class="score-input"></div>
     </div>
-    <label>考核結果：</label>
-    <select id="examPassed">
-      <option value="否">否 (保持原級別)</option>
-      <option value="是_升級">是 (晉升下一級)</option>
-      <option value="是_保持">是 (合格，但保持原級別)</option>
-    </select>
+
+    <div style="margin-top:15px;">
+      <label>考核結果：</label>
+      <select id="examPassed">
+        <option value="否">否 (保持原級別)</option>
+        <option value="是_升級">是 (晉升下一級)</option>
+        <option value="是_保持">是 (合格，但保持原級別)</option>
+      </select>
+    </div>
+
     <button id="saveBtn" onclick="saveExamResult()" style="background-color: var(--primary-purple);">儲存考核紀錄</button>
   </div>
 
@@ -84,14 +105,25 @@
 <script>
   let currentUserRole = '';
   const RANKS = ["10級", "九級", "八級", "七級", "六級", "伍級", "四級", "三級", "二級", "一級", "黑帶"];
-  let students = JSON.parse(localStorage.getItem('hk_health_students')) || [
+  
+  let defaultStudents = [
     { id: "6", name: "盧明俐", rank: "黑帶" }, { id: "15", name: "林雪蓮", rank: "黑帶" },
     { id: "20", name: "譚美霞", rank: "黑帶" }, { id: "17", name: "李翹伶", rank: "黑帶" },
     { id: "9", name: "陸婥然", rank: "黑帶" }, { id: "16", name: "何肇東", rank: "黑帶" },
     { id: "8", name: "陳麗君", rank: "黑帶" }, { id: "5", name: "張勵常", rank: "10級" },
-    { id: "35", name: "李文英", rank: "伍級" }, { id: "47", name: "朱秉江", rank: "一級" },
-    { id: "48", name: "廖金虹", rank: "一級" }
+    { id: "23", name: "陸景城", rank: "九級" }, { id: "24", name: "黎世瓊", rank: "九級" },
+    { id: "26", name: "楊燕娜", rank: "九級" }, { id: "25", name: "區美珍", rank: "九級" },
+    { id: "32", name: "黃愛晴", rank: "六級" }, { id: "44", name: "方兆賢", rank: "六級" },
+    { id: "29", name: "梁美玲", rank: "六級" }, { id: "31", name: "蔡麗珠", rank: "六級" },
+    { id: "38", name: "關凱惠", rank: "六級" }, { id: "37", name: "鄺炳權", rank: "伍級" },
+    { id: "35", name: "李文英", rank: "伍級" }, { id: "36", name: "鍾炳權", rank: "伍級" },
+    { id: "39", name: "蘇少賢", rank: "伍級" }, { id: "45", name: "張家莉", rank: "四級" },
+    { id: "46", name: "周响輝", rank: "四級" }, { id: "42", name: "鍾麗君", rank: "四級" },
+    { id: "40", name: "歐志雄", rank: "四級" }, { id: "39", name: "蘇少敏", rank: "二級" },
+    { id: "47", name: "朱秉江", rank: "一級" }, { id: "48", name: "廖金虹", rank: "一級" }
   ];
+
+  let students = JSON.parse(localStorage.getItem('hk_health_students')) || defaultStudents;
 
   function login(role) {
     if (role === 'tutor') {
@@ -118,7 +150,7 @@
     select.innerHTML = '<option value="">-- 請選擇學員 --</option>';
     students.forEach((s, index) => {
       let row = `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.rank}</td>`;
-      if (currentUserRole === 'tutor') row += `<td><button style="background:red; padding:5px; width:40px;" onclick="deleteStudent(${index})">X</button></td>`;
+      if (currentUserRole === 'tutor') row += `<td><button style="background:red; padding:4px; width:35px;" onclick="deleteStudent(${index})">X</button></td>`;
       row += `</tr>`;
       tbody.innerHTML += row;
       select.innerHTML += `<option value="${index}">${s.id} - ${s.name}</option>`;
@@ -126,7 +158,7 @@
   }
 
   function saveAndRender() { localStorage.setItem('hk_health_students', JSON.stringify(students)); renderStudents(); }
-  
+
   function addStudent() {
     const name = document.getElementById('newStudentName').value;
     if(!name) return alert('請填寫姓名');
@@ -139,10 +171,13 @@
   }
 
   function deleteStudent(index) { if(confirm('確定刪除？')) { students.splice(index, 1); saveAndRender(); } }
-  
+
   function loadStudentData() {
     const idx = document.getElementById('studentSelect').value;
-    if (idx !== "") { document.getElementById('examId').value = students[idx].id; document.getElementById('examRank').value = students[idx].rank; }
+    if (idx !== "") {
+      document.getElementById('examId').value = students[idx].id;
+      document.getElementById('examRank').value = students[idx].rank;
+    }
   }
 
   function saveExamResult() {
@@ -150,15 +185,14 @@
     const action = document.getElementById('examPassed').value;
     if (idx === "") return alert('請選擇學員');
     
-    // 升級邏輯
     if (action === '是_升級') {
       let rIdx = RANKS.indexOf(students[idx].rank);
       if (rIdx < RANKS.length - 1) students[idx].rank = RANKS[rIdx + 1];
-      alert('考核合格！已晉升。');
-    } else { alert('考核結果已記錄。'); }
-    
-    // 清空欄位
-    for(let i=1; i<=10; i++) document.getElementById('i'+i).value = '';
+      alert('考核合格！學員已順利晉升。');
+    } else { alert('考核結果已儲存。'); }
+
+    // 考核後自動清空所有分數輸入框
+    document.querySelectorAll('.score-input').forEach(input => input.value = '');
     document.getElementById('examPassed').selectedIndex = 0;
     saveAndRender();
   }
