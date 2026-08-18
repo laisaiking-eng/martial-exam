@@ -12,7 +12,6 @@
     .card { background: white; padding: 20px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #CCC; border-radius: 8px; box-sizing: border-box; }
-    label { font-size: 13px; font-weight: bold; display: block; margin-top: 5px; }
     button { background-color: var(--light-purple); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; margin-top: 10px; font-weight: bold; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; }
     th, td { border: 1px solid #EEE; padding: 10px; text-align: center; font-size: 14px; }
@@ -23,11 +22,11 @@
 <body>
 
 <div id="loginOverlay">
-  <div class="card" style="width: 80%; max-width: 300px;">
+  <div class="card" style="width: 80%; max-width: 300px; text-align: center;">
     <h2>身份登入</h2>
-    <input type="password" id="pwInput" placeholder="請輸入密碼 (小寫)">
-    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入 (exam)</button>
-    <button onclick="login('student')">學員登入 (view)</button>
+    <input type="password" id="pwInput" placeholder="導師請輸入密碼 (學員免填)">
+    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入 (需要密碼)</button>
+    <button onclick="login('student')" style="background-color: #28a745;">學員登入 (無須密碼)</button>
   </div>
 </div>
 
@@ -40,7 +39,6 @@
       <div><label>學號：</label><input type="text" id="examId" readonly></div>
       <div><label>現時級別：</label><input type="text" id="examRank" readonly></div>
     </div>
-
     <h3 style="color:#4A168B;">一、功法考核</h3>
     <div class="grid-2">
       <div><label>前俯腰(吋)：</label><input type="text" id="i1"></div>
@@ -48,9 +46,8 @@
       <div><label>定式(分/秒)：</label><input type="text" id="i3"></div>
       <div><label>膝/腰/臂膊：</label><input type="text" id="i4"></div>
       <div><label>外擺腿：</label><input type="text" id="i5"></div>
-      <div><label>腿法(彈/蹬/側)：</label><input type="text" id="i6"></div>
+      <div><label>腿法：</label><input type="text" id="i6"></div>
     </div>
-
     <h3 style="color:#4A168B;">二、拳腳考核</h3>
     <div class="grid-2">
       <div><label>雙拳三步：</label><input type="text" id="i7"></div>
@@ -58,7 +55,6 @@
       <div><label>原地十式：</label><input type="text" id="i9"></div>
       <div><label>活步十式：</label><input type="text" id="i10"></div>
     </div>
-
     <label>考核結果：</label>
     <select id="examPassed">
       <option value="否">否 (保持原級別)</option>
@@ -70,7 +66,7 @@
 
   <div class="card" id="adminSection">
     <h2>管理功能</h2>
-    <input type="text" id="newStudentId" placeholder="學號">
+    <input type="text" id="newStudentId" placeholder="學號 (留空則自動顯示待補)">
     <input type="text" id="newStudentName" placeholder="姓名">
     <button onclick="addStudent()">新增學員</button>
     <button style="background-color:#007BFF;" onclick="exportReport()">下載 CSV 報告</button>
@@ -106,11 +102,13 @@
   ];
 
   function login(role) {
-    const pw = document.getElementById('pwInput').value;
-    if (role === 'tutor' && pw === 'exam') { currentUserRole = 'tutor'; }
-    else if (role === 'student' && pw === 'view') { currentUserRole = 'student'; }
-    else { alert('密碼錯誤！請輸入小寫字母'); return; }
-    
+    if (role === 'tutor') {
+      const pw = document.getElementById('pwInput').value;
+      if (pw !== 'exam') { alert('導師密碼錯誤！'); return; }
+      currentUserRole = 'tutor';
+    } else {
+      currentUserRole = 'student';
+    }
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
     if (currentUserRole === 'student') {
@@ -139,8 +137,11 @@
   function addStudent() {
     const name = document.getElementById('newStudentName').value;
     if(!name) return alert('請填寫姓名');
-    students.push({ id: document.getElementById('newStudentId').value || "-", name: name, rank: "一級" });
+    let id = document.getElementById('newStudentId').value;
+    if(!id) id = "待補";
+    students.push({ id: id, name: name, rank: "一級" });
     saveAndRender();
+    alert('學員新增成功');
   }
   function deleteStudent(index) { if(confirm('確定刪除？')) { students.splice(index, 1); saveAndRender(); } }
   function loadStudentData() {
@@ -167,7 +168,6 @@
     link.download = "考核報告.csv";
     link.click();
   }
-  renderStudents();
 </script>
 </body>
 </html>
