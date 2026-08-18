@@ -24,9 +24,9 @@
 <div id="loginOverlay">
   <div class="card" style="width: 80%; max-width: 300px; text-align: center;">
     <h2>身份登入</h2>
-    <input type="password" id="pwInput" placeholder="導師請輸入密碼 (學員免填)">
-    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入 (需要密碼)</button>
-    <button onclick="login('student')" style="background-color: #28a745;">學員登入 (無須密碼)</button>
+    <input type="password" id="pwInput" placeholder="請輸入密碼">
+    <button onclick="login('tutor')" style="background-color: var(--primary-purple);">導師登入</button>
+    <button onclick="login('student')" style="background-color: #28a745;">學員登入</button>
   </div>
 </div>
 
@@ -66,7 +66,7 @@
 
   <div class="card" id="adminSection">
     <h2>管理功能</h2>
-    <input type="text" id="newStudentId" placeholder="學號 (留空則自動顯示待補)">
+    <input type="text" id="newStudentId" placeholder="學號">
     <input type="text" id="newStudentName" placeholder="姓名">
     <button onclick="addStudent()">新增學員</button>
     <button style="background-color:#007BFF;" onclick="exportReport()">下載 CSV 報告</button>
@@ -89,22 +89,14 @@
     { id: "20", name: "譚美霞", rank: "黑帶" }, { id: "17", name: "李翹伶", rank: "黑帶" },
     { id: "9", name: "陸婥然", rank: "黑帶" }, { id: "16", name: "何肇東", rank: "黑帶" },
     { id: "8", name: "陳麗君", rank: "黑帶" }, { id: "5", name: "張勵常", rank: "10級" },
-    { id: "23", name: "陸景城", rank: "九級" }, { id: "24", name: "黎世瓊", rank: "九級" },
-    { id: "26", name: "楊燕娜", rank: "九級" }, { id: "25", name: "區美珍", rank: "九級" },
-    { id: "32", name: "黄愛晴", rank: "六級" }, { id: "44", name: "方兆賢", rank: "六級" },
-    { id: "29", name: "梁美玲", rank: "六級" }, { id: "31", name: "蔡麗珠", rank: "六級" },
-    { id: "38", name: "關凱惠", rank: "六級" }, { id: "37", name: "鄺炳權", rank: "伍級" },
-    { id: "35", name: "李文英", rank: "伍級" }, { id: "36", name: "鍾炳權", rank: "伍級" },
-    { id: "39", name: "蘇少賢", rank: "伍級" }, { id: "45", name: "張家莉", rank: "四級" },
-    { id: "46", name: "周响輝", rank: "四級" }, { id: "42", name: "鍾麗君", rank: "四級" },
-    { id: "40", name: "歐志雄", rank: "四級" }, { id: "39", name: "蘇少敏", rank: "二級" },
-    { id: "47", name: "朱秉江", rank: "一級" }, { id: "48", name: "廖金虹", rank: "一級" }
+    { id: "35", name: "李文英", rank: "伍級" }, { id: "47", name: "朱秉江", rank: "一級" },
+    { id: "48", name: "廖金虹", rank: "一級" }
   ];
 
   function login(role) {
     if (role === 'tutor') {
       const pw = document.getElementById('pwInput').value;
-      if (pw !== 'exam') { alert('導師密碼錯誤！'); return; }
+      if (pw !== 'exam') { alert('密碼錯誤！'); return; }
       currentUserRole = 'tutor';
     } else {
       currentUserRole = 'student';
@@ -134,31 +126,43 @@
   }
 
   function saveAndRender() { localStorage.setItem('hk_health_students', JSON.stringify(students)); renderStudents(); }
+  
   function addStudent() {
     const name = document.getElementById('newStudentName').value;
     if(!name) return alert('請填寫姓名');
-    let id = document.getElementById('newStudentId').value;
-    if(!id) id = "待補";
+    let id = document.getElementById('newStudentId').value || "待補";
     students.push({ id: id, name: name, rank: "一級" });
     saveAndRender();
+    document.getElementById('newStudentName').value = '';
+    document.getElementById('newStudentId').value = '';
     alert('學員新增成功');
   }
+
   function deleteStudent(index) { if(confirm('確定刪除？')) { students.splice(index, 1); saveAndRender(); } }
+  
   function loadStudentData() {
     const idx = document.getElementById('studentSelect').value;
     if (idx !== "") { document.getElementById('examId').value = students[idx].id; document.getElementById('examRank').value = students[idx].rank; }
   }
+
   function saveExamResult() {
     const idx = document.getElementById('studentSelect').value;
     const action = document.getElementById('examPassed').value;
     if (idx === "") return alert('請選擇學員');
+    
+    // 升級邏輯
     if (action === '是_升級') {
       let rIdx = RANKS.indexOf(students[idx].rank);
       if (rIdx < RANKS.length - 1) students[idx].rank = RANKS[rIdx + 1];
       alert('考核合格！已晉升。');
     } else { alert('考核結果已記錄。'); }
+    
+    // 清空欄位
+    for(let i=1; i<=10; i++) document.getElementById('i'+i).value = '';
+    document.getElementById('examPassed').selectedIndex = 0;
     saveAndRender();
   }
+
   function exportReport() {
     let csvContent = "\uFEFF學號,姓名,級別\n";
     students.forEach(s => csvContent += `${s.id},${s.name},${s.rank}\n`);
