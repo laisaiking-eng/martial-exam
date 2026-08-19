@@ -47,38 +47,38 @@
     <!-- 一、功法考核 -->
     <h3 class="section-title">一、功法考核</h3>
     <div class="grid-3">
-      <div><label>前俯腰 (吋)：</label><input type="text" class="score-input"></div>
-      <div><label>指：</label><input type="text" class="score-input"></div>
-      <div><label>拳：</label><input type="text" class="score-input"></div>
-      <div><label>掌：</label><input type="text" class="score-input"></div>
-      <div><label>定式 (分/秒)：</label><input type="text" class="score-input"></div>
-      <div><label>膝：</label><input type="text" class="score-input"></div>
-      <div><label>腰：</label><input type="text" class="score-input"></div>
-      <div><label>外擺腿：</label><input type="text" class="score-input"></div>
-      <div><label>臂膊：</label><input type="text" class="score-input"></div>
-      <div><label>腿法 - 彈腿：</label><input type="text" class="score-input"></div>
-      <div><label>腿法 - 蹬腿：</label><input type="text" class="score-input"></div>
-      <div><label>腿法 - 側踢：</label><input type="text" class="score-input"></div>
+      <div><label>前俯腰 (吋)：</label><input type="text" id="s_腰吋" class="score-input"></div>
+      <div><label>指：</label><input type="text" id="s_指" class="score-input"></div>
+      <div><label>拳：</label><input type="text" id="s_拳" class="score-input"></div>
+      <div><label>掌：</label><input type="text" id="s_掌" class="score-input"></div>
+      <div><label>定式 (分/秒)：</label><input type="text" id="s_定式" class="score-input"></div>
+      <div><label>膝：</label><input type="text" id="s_膝" class="score-input"></div>
+      <div><label>腰：</label><input type="text" id="s_腰" class="score-input"></div>
+      <div><label>外擺腿：</label><input type="text" id="s_外擺腿" class="score-input"></div>
+      <div><label>臂膊：</label><input type="text" id="s_臂膊" class="score-input"></div>
+      <div><label>腿法 - 彈腿：</label><input type="text" id="s_彈腿" class="score-input"></div>
+      <div><label>腿法 - 蹬腿：</label><input type="text" id="s_蹬腿" class="score-input"></div>
+      <div><label>腿法 - 側踢：</label><input type="text" id="s_側踢" class="score-input"></div>
     </div>
 
     <!-- 二、拳腳考核 -->
     <h3 class="section-title">二、拳腳考核</h3>
     <div class="grid-3">
-      <div><label>雙拳三步：</label><input type="text" class="score-input"></div>
-      <div><label>七式 - 活步：</label><input type="text" class="score-input"></div>
-      <div><label>七式 - A前進攻：</label><input type="text" class="score-input"></div>
-      <div><label>七式 - B後退防：</label><input type="text" class="score-input"></div>
-      <div><label>原地十式：</label><input type="text" class="score-input"></div>
-      <div><label>活步十式：</label><input type="text" class="score-input"></div>
-      <div><label>本級：</label><input type="text" class="score-input"></div>
+      <div><label>雙拳三步：</label><input type="text" id="s_雙拳三步" class="score-input"></div>
+      <div><label>七式 - 活步：</label><input type="text" id="s_七式活步" class="score-input"></div>
+      <div><label>七式 - A前進攻：</label><input type="text" id="s_七式進攻" class="score-input"></div>
+      <div><label>七式 - B後退防：</label><input type="text" id="s_七式退防" class="score-input"></div>
+      <div><label>原地十式：</label><input type="text" id="s_原地十式" class="score-input"></div>
+      <div><label>活步十式：</label><input type="text" id="s_活步十式" class="score-input"></div>
+      <div><label>本級：</label><input type="text" id="s_本級" class="score-input"></div>
     </div>
 
     <div style="margin-top:15px;">
       <label>考核結果：</label>
       <select id="examPassed">
-        <option value="否">否 (保持原級別)</option>
-        <option value="是_升級">是 (晉升下一級)</option>
-        <option value="是_保持">是 (合格，但保持原級別)</option>
+        <option value="保持原級別">否 (保持原級別)</option>
+        <option value="合格-晉升">是 (晉升下一級)</option>
+        <option value="合格-保持">是 (合格，但保持原級別)</option>
       </select>
     </div>
 
@@ -90,7 +90,7 @@
     <input type="text" id="newStudentId" placeholder="學號">
     <input type="text" id="newStudentName" placeholder="姓名">
     <button onclick="addStudent()">新增學員</button>
-    <button style="background-color:#007BFF;" onclick="exportReport()">下載 CSV 報告</button>
+    <button style="background-color:#007BFF;" onclick="exportReport()">下載完整考核 CSV 報告</button>
   </div>
 
   <div class="card">
@@ -105,7 +105,8 @@
 <script>
   let currentUserRole = '';
   const RANKS = ["10級", "九級", "八級", "七級", "六級", "伍級", "四級", "三級", "二級", "一級", "黑帶"];
-  
+  const SCORE_KEYS = ["腰吋","指","拳","掌","定式","膝","腰","外擺腿","臂膊","彈腿","蹬腿","側踢","雙拳三步","七式活步","七式進攻","七式退防","原地十式","活步十式","本級"];
+
   let defaultStudents = [
     { id: "6", name: "盧明俐", rank: "黑帶" }, { id: "15", name: "林雪蓮", rank: "黑帶" },
     { id: "20", name: "譚美霞", rank: "黑帶" }, { id: "17", name: "李翹伶", rank: "黑帶" },
@@ -163,7 +164,7 @@
     const name = document.getElementById('newStudentName').value;
     if(!name) return alert('請填寫姓名');
     let id = document.getElementById('newStudentId').value || "待補";
-    students.push({ id: id, name: name, rank: "一級" });
+    students.push({ id: id, name: name, rank: "一級", scores: {}, result: "" });
     saveAndRender();
     document.getElementById('newStudentName').value = '';
     document.getElementById('newStudentId').value = '';
@@ -175,8 +176,19 @@
   function loadStudentData() {
     const idx = document.getElementById('studentSelect').value;
     if (idx !== "") {
-      document.getElementById('examId').value = students[idx].id;
-      document.getElementById('examRank').value = students[idx].rank;
+      const s = students[idx];
+      document.getElementById('examId').value = s.id;
+      document.getElementById('examRank').value = s.rank;
+      
+      // 讀取先前填過的分數
+      if (s.scores) {
+        SCORE_KEYS.forEach(k => {
+          document.getElementById('s_' + k).value = s.scores[k] || '';
+        });
+      } else {
+        document.querySelectorAll('.score-input').forEach(i => i.value = '');
+      }
+      if (s.result) document.getElementById('examPassed').value = s.result;
     }
   }
 
@@ -185,25 +197,68 @@
     const action = document.getElementById('examPassed').value;
     if (idx === "") return alert('請選擇學員');
     
-    if (action === '是_升級') {
+    // 儲存該學員的各項成績
+    let scoresObj = {};
+    SCORE_KEYS.forEach(k => {
+      scoresObj[k] = document.getElementById('s_' + k).value;
+    });
+    students[idx].scores = scoresObj;
+    students[idx].result = action;
+
+    // 晉升邏輯
+    if (action === '合格-晉升') {
       let rIdx = RANKS.indexOf(students[idx].rank);
       if (rIdx < RANKS.length - 1) students[idx].rank = RANKS[rIdx + 1];
-      alert('考核合格！學員已順利晉升。');
-    } else { alert('考核結果已儲存。'); }
+      alert('考核紀錄已儲存！學員已順利晉升。');
+    } else {
+      alert('考核紀錄已儲存。');
+    }
 
-    // 考核後自動清空所有分數輸入框
+    // 清空分數輸入框，方便進行下一位
     document.querySelectorAll('.score-input').forEach(input => input.value = '');
     document.getElementById('examPassed').selectedIndex = 0;
     saveAndRender();
   }
 
   function exportReport() {
-    let csvContent = "\uFEFF學號,姓名,級別\n";
-    students.forEach(s => csvContent += `${s.id},${s.name},${s.rank}\n`);
+    // CSV 標頭包含所有考核分數欄位
+    let csvHeader = ["學號", "姓名", "現時級別", "前俯腰(吋)", "指", "拳", "掌", "定式(分/秒)", "膝", "腰", "外擺腿", "臂膊", "彈腿", "蹬腿", "側踢", "雙拳三步", "七式-活步", "七式-進攻", "七式-退防", "原地十式", "活步十式", "本級", "考核結果"];
+    let csvContent = "\uFEFF" + csvHeader.join(",") + "\n";
+
+    students.forEach(s => {
+      let sc = s.scores || {};
+      let row = [
+        s.id,
+        s.name,
+        s.rank,
+        sc["腰吋"] || "",
+        sc["指"] || "",
+        sc["拳"] || "",
+        sc["掌"] || "",
+        sc["定式"] || "",
+        sc["膝"] || "",
+        sc["腰"] || "",
+        sc["外擺腿"] || "",
+        sc["臂膊"] || "",
+        sc["彈腿"] || "",
+        sc["蹬腿"] || "",
+        sc["側踢"] || "",
+        sc["雙拳三步"] || "",
+        sc["七式活步"] || "",
+        sc["七式進攻"] || "",
+        sc["七式退防"] || "",
+        sc["原地十式"] || "",
+        sc["活步十式"] || "",
+        sc["本級"] || "",
+        s.result || ""
+      ];
+      csvContent += row.join(",") + "\n";
+    });
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "考核報告.csv";
+    link.download = `武術考核報告_${new Date().toLocaleDateString()}.csv`;
     link.click();
   }
 </script>
